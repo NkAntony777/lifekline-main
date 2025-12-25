@@ -56,7 +56,7 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
         {
           id: '1',
           type: 'system',
-          content: '已为您生成大运数据。请点击上方的大运方块进行AI分析，或在下方输入框中提问。',
+          content: '已为您生成大运流年数据。请点击上方的大运方块或流年方块进行AI分析，或在下方输入框中提问。',
           timestamp: new Date(),
         },
       ]);

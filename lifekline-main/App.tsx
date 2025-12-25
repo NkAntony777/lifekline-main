@@ -10,8 +10,8 @@ type PageType = 'home' | 'kline' | 'analysis' | 'chat';
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [apiSettings, setApiSettings] = useState({
-    modelName: 'gemini-3-pro-preview',
-    apiBaseUrl: 'https://max.openai365.top/v1',
+    modelName: 'deepseek-reasoner',
+    apiBaseUrl: 'https://api.deepseek.com',
     apiKey: '',
   });
   const [chatUserInput, setChatUserInput] = useState<UserInput | null>(null);
