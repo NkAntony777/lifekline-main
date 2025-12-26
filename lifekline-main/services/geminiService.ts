@@ -1,4 +1,6 @@
 import { UserInput, Gender, ChatMessage } from "../types";
+import { DrawnCard, TarotReadingResult, TarotSpread } from "../types/tarot";
+import { TAROT_SYSTEM_INSTRUCTION } from "../constants/tarot";
 
 const GAN_LIST = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const ZHI_LIST = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
@@ -10,7 +12,7 @@ function getStemPolarity(yearPillar: string): 'YANG' | 'YIN' {
 }
 
 function calculateCurrentLiuNian(
-  birthYear: number,
+  _birthYear: number,
   currentAge: number,
   startAge: number,
   firstDaYun: string,
@@ -559,6 +561,224 @@ export const generateDayunAnalysis = async (
   }
 };
 
+export const generateTarotReading = async (
+  userInput: UserInput,
+  question: string,
+  spread: TarotSpread,
+  drawnCards: DrawnCard[]
+): Promise<TarotReadingResult> => {
+  const { apiKey, apiBaseUrl, modelName } = userInput;
+
+  const cleanApiKey = apiKey ? apiKey.trim() : "";
+  const cleanBaseUrl = apiBaseUrl ? apiBaseUrl.trim().replace(/\/+$/, "") : "";
+  const targetModel = modelName && modelName.trim() ? modelName.trim() : "gemini-3-pro-preview";
+
+  if (!cleanApiKey) {
+    throw new Error("请在表单中填写有效的 API Key");
+  }
+
+  if (!cleanBaseUrl) {
+    throw new Error("请在表单中填写有效的 API Base URL");
+  }
+
+  const cardsInfo = drawnCards.map(dc => {
+    const meaning = dc.isReversed ? dc.card.meaningReversed : dc.card.meaningUpright;
+    const position = dc.position.name;
+    const positionDesc = dc.position.description;
+    const status = dc.isReversed ? "（逆位）" : "（正位）";
+    
+    return `**${position}** - ${dc.card.name}${status}\n` +
+           `- 牌位含义：${positionDesc}\n` +
+           `- 牌面含义：${meaning}\n` +
+           `- 关键词：${dc.card.keywords.join('、')}\n`;
+  }).join('\n');
+
+  const userPrompt = `
+请对以下塔罗牌阵进行深度解读：
+
+## 用户问题
+${question}
+
+## 牌阵信息
+**牌阵名称**：${spread.name}（${spread.nameEn}）
+**牌阵描述**：${spread.description}
+
+## 抽出的牌
+${cardsInfo}
+
+## 解读要求
+请按照以下结构进行解读，使用Markdown格式：
+
+### 1. 牌阵说明
+简要说明所选牌阵的特点和适用性
+
+### 2. 逐牌解读
+对每一张牌进行详细解读，包括：
+- 牌位含义
+- 牌面含义（正位/逆位）
+- 与问题的关联
+
+### 3. 整体解读
+综合所有牌面，分析整体能量流向和核心信息
+
+### 4. 具体建议
+基于牌面信息，提供3-5条具体可行的建议
+
+### 5. 关键词总结
+用3-5个关键词总结本次解读的核心主题
+
+请确保解读客观中立，不做出绝对化的预测，以启发和引导为主。
+`;
+
+  try {
+    const response = await fetch(`${cleanBaseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cleanApiKey}`
+      },
+      body: JSON.stringify({
+        model: targetModel,
+        messages: [
+          { role: "system", content: TAROT_SYSTEM_INSTRUCTION },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.8,
+        max_tokens: 6000
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      let errorMessage = `API 请求失败: ${response.status}`;
+      
+      if (response.status === 401) {
+        errorMessage = 'API Key 无效或已过期，请检查您的 API Key 配置';
+      } else if (response.status === 429) {
+        errorMessage = 'API 请求过于频繁，请稍后再试';
+      } else if (response.status === 500) {
+        errorMessage = 'API 服务器内部错误，请稍后再试';
+      } else if (errText) {
+        errorMessage = `API 请求失败: ${response.status} - ${errText}`;
+      }
+      
+      throw new Error(errorMessage);
+    }
+
+    const jsonResult = await response.json();
+    const content = jsonResult.choices?.[0]?.message?.content;
+
+    if (!content) {
+      throw new Error("模型未返回任何内容。");
+    }
+
+    const allKeywords = drawnCards.flatMap(dc => dc.card.keywords);
+    const uniqueKeywords = Array.from(new Set(allKeywords)).slice(0, 10);
+
+    return {
+      spread,
+      question,
+      cards: drawnCards,
+      overallInterpretation: content,
+      advice: [],
+      keywords: uniqueKeywords
+    };
+  } catch (error) {
+    console.error("Tarot Reading API Error:", error);
+    throw error;
+  }
+};
+
+export const generateTarotChatResponse = async (
+  userInput: UserInput,
+  chatHistory: { role: string; content: string }[],
+  userMessage: string,
+  currentReading?: TarotReadingResult
+): Promise<string> => {
+  const { apiKey, apiBaseUrl, modelName } = userInput;
+
+  const cleanApiKey = apiKey ? apiKey.trim() : "";
+  const cleanBaseUrl = apiBaseUrl ? apiBaseUrl.trim().replace(/\/+$/, "") : "";
+  const targetModel = modelName && modelName.trim() ? modelName.trim() : "gemini-3-pro-preview";
+
+  if (!cleanApiKey) {
+    throw new Error("请在表单中填写有效的 API Key");
+  }
+
+  if (!cleanBaseUrl) {
+    throw new Error("请在表单中填写有效的 API Base URL");
+  }
+
+  let contextPrompt = TAROT_SYSTEM_INSTRUCTION;
+
+  if (currentReading) {
+    const cardsInfo = currentReading.cards.map(dc => {
+      const meaning = dc.isReversed ? dc.card.meaningReversed : dc.card.meaningUpright;
+      const position = dc.position.name;
+      const status = dc.isReversed ? "（逆位）" : "（正位）";
+      
+      return `**${position}** - ${dc.card.name}${status}：${meaning}`;
+    }).join('\n');
+
+    contextPrompt += `\n\n## 当前牌阵背景\n` +
+      `**牌阵**：${currentReading.spread.name}\n` +
+      `**问题**：${currentReading.question}\n` +
+      `**抽出的牌**：\n${cardsInfo}\n\n` +
+      `请基于以上牌阵信息回答用户的问题。`;
+  }
+
+  const messages = [
+    { role: "system", content: contextPrompt },
+    ...chatHistory,
+    { role: "user", content: userMessage }
+  ];
+
+  try {
+    const response = await fetch(`${cleanBaseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cleanApiKey}`
+      },
+      body: JSON.stringify({
+        model: targetModel,
+        messages,
+        temperature: 0.8,
+        max_tokens: 4000
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      let errorMessage = `API 请求失败: ${response.status}`;
+      
+      if (response.status === 401) {
+        errorMessage = 'API Key 无效或已过期，请检查您的 API Key 配置';
+      } else if (response.status === 429) {
+        errorMessage = 'API 请求过于频繁，请稍后再试';
+      } else if (response.status === 500) {
+        errorMessage = 'API 服务器内部错误，请稍后再试';
+      } else if (errText) {
+        errorMessage = `API 请求失败: ${response.status} - ${errText}`;
+      }
+      
+      throw new Error(errorMessage);
+    }
+
+    const jsonResult = await response.json();
+    const content = jsonResult.choices?.[0]?.message?.content;
+
+    if (!content) {
+      throw new Error("模型未返回任何内容。");
+    }
+
+    return content;
+  } catch (error) {
+    console.error("Tarot Chat API Error:", error);
+    throw error;
+  }
+};
+
 export const testApiConnection = async (
   apiKey: string,
   apiBaseUrl: string,
@@ -644,8 +864,8 @@ export const generateLiunianAnalysis = async (
   const bazi = `${userInput.yearPillar} ${userInput.monthPillar} ${userInput.dayPillar} ${userInput.hourPillar}`;
 
   const userPrompt = `
-你是一位顶尖的盲派命理专家，请对指定流年进行精析。核心铁律：以原局“体用做功”为根本，以大运为十年环境背景，以流年为当年主导力量。论断吉凶，唯看流年作用对“体用得与失”的影响，并全面覆盖人生各领域。
-
+你是一位顶尖的盲派命理专家，请对指定流年进行精析。核心铁律：以原局“体用做功主宾得失”为根本，以大运为十年环境背景，以流年为当年主导力量。论断吉凶，唯看流年作用对“体用得与失”的影响，并全面覆盖人生各领域。
+全程禁止使用"身强身弱"、"五行平衡"、"旺衰"等概念。
 【一、命局与运势信息】
 八字：${bazi}
 性别：${genderStr}

@@ -3,9 +3,10 @@ import HomePage from './components/HomePage';
 import LifeKLinePage from './components/LifeKLinePage';
 import BaziAnalysis from './components/BaziAnalysis';
 import DaYunChatPage from './components/DaYunChatPage';
+import TarotReading from './components/TarotReading';
 import { UserInput } from './types';
 
-type PageType = 'home' | 'kline' | 'analysis' | 'chat';
+type PageType = 'home' | 'kline' | 'analysis' | 'chat' | 'tarot';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
@@ -50,6 +51,12 @@ const App: React.FC = () => {
         <DaYunChatPage 
           userInput={chatUserInput}
           onBack={() => handleNavigate('analysis')}
+        />
+      )}
+      {currentPage === 'tarot' && (
+        <TarotReading 
+          onBack={() => handleNavigate('home')}
+          apiSettings={apiSettings}
         />
       )}
     </>

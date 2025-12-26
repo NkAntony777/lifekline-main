@@ -67,6 +67,52 @@ body {
   background: rgba(255, 255, 255, 0.3);
 }
 
+.prose-invert {
+  color: #e5e7eb;
+}
+
+.prose-invert h1,
+.prose-invert h2,
+.prose-invert h3,
+.prose-invert h4,
+.prose-invert h5,
+.prose-invert h6 {
+  color: #ffffff;
+}
+
+.prose-invert p {
+  color: #e5e7eb;
+}
+
+.prose-invert strong {
+  color: #ffffff;
+}
+
+.prose-invert a {
+  color: #d8b4fe;
+}
+
+.prose-invert code {
+  color: #f9a8d4;
+}
+
+.prose-invert ul,
+.prose-invert ol {
+  color: #e5e7eb;
+}
+
+.prose-invert li {
+  color: #e5e7eb;
+}
+
+.prose-invert blockquote {
+  color: #e5e7eb;
+}
+
+.prose-invert hr {
+  border-color: #4b5563;
+}
+
 @media print {
   .no-print {
     display: none !important;

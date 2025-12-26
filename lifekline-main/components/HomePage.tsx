@@ -3,7 +3,7 @@ import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, Chevron
 import { testApiConnection } from '../services/geminiService';
 
 interface HomePageProps {
-  onNavigate: (page: 'kline' | 'analysis') => void;
+  onNavigate: (page: 'kline' | 'analysis' | 'tarot') => void;
   apiSettings: {
     modelName: string;
     apiBaseUrl: string;
@@ -159,7 +159,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl w-full">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl w-full">
           <div
             onClick={() => onNavigate('kline')}
             className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-amber-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/20"
@@ -205,6 +205,31 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
               
               <div className="flex items-center gap-2 text-purple-400 group-hover:gap-4 transition-all duration-300">
                 <span className="font-medium">开始分析</span>
+                <ArrowRight className="w-5 h-5" />
+              </div>
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('tarot')}
+            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-pink-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20"
+          >
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"></div>
+            
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              
+              <h2 className="text-3xl font-serif-sc font-bold text-white mb-3 group-hover:text-pink-300 transition-colors">
+                塔罗 AI 解读
+              </h2>
+              <p className="text-gray-400 mb-6 leading-relaxed">
+                智能推荐牌阵，AI 深度解读每张牌的含义，揭示命运指引，解答人生困惑。
+              </p>
+              
+              <div className="flex items-center gap-2 text-pink-400 group-hover:gap-4 transition-all duration-300">
+                <span className="font-medium">开始解读</span>
                 <ArrowRight className="w-5 h-5" />
               </div>
             </div>
