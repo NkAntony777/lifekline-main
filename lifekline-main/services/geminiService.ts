@@ -1,8 +1,10 @@
 import { UserInput, Gender, ChatMessage } from "../types";
 import { DrawnCard, TarotReadingResult, TarotSpread } from "../types/tarot";
 import { DiceResult, AstrologyDiceReading } from "../types/astrologyDice";
+import { ShiKeTianJiResult, ShiKeTianJiReading } from "../types/shiketianji";
 import { TAROT_SYSTEM_INSTRUCTION } from "../constants/tarot";
 import { ASTROLOGY_DICE_SYSTEM_PROMPT } from "../constants/astrologyDice";
+import { SHIKETIANJI_TUTORIAL } from "../constants/shiketianjiTutorial";
 
 const GAN_LIST = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const ZHI_LIST = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
@@ -673,6 +675,126 @@ export const generateDayunAnalysis = async (
     }
 
     return content;
+  } catch (error) {
+    console.error("Gemini/OpenAI API Error:", error);
+    throw error;
+  }
+};
+
+export const interpretShiKeTianJi = async (
+  question: string,
+  calculationResult: ShiKeTianJiResult,
+  modelName: string,
+  apiBaseUrl: string,
+  apiKey: string
+): Promise<ShiKeTianJiReading> => {
+  const cleanApiKey = apiKey ? apiKey.trim() : "";
+  const cleanBaseUrl = apiBaseUrl ? apiBaseUrl.trim().replace(/\/+$/, "") : "";
+  const targetModel = modelName && modelName.trim() ? modelName.trim() : "gemini-3-pro-preview";
+
+  if (!cleanApiKey) {
+    throw new Error("请在表单中填写有效的 API Key");
+  }
+
+  if (!cleanBaseUrl) {
+    throw new Error("请在表单中填写有效的 API Base URL");
+  }
+
+  const formatPillar = (pillar: any) => {
+    return `${pillar.ganzhi}（${pillar.nayin}，${pillar.longevity}）`;
+  };
+
+  const formatShensha = (shensha: any) => {
+    const entries = Object.entries(shensha).filter(([_, value]) => value);
+    if (entries.length === 0) return '无';
+    return entries.map(([key, value]) => {
+      if (typeof value === 'object' && value !== null) {
+        const shenshaValue = value as { hour: string; ke: string };
+        const hour = shenshaValue.hour || '';
+        const ke = shenshaValue.ke || '';
+        return `${key}：时柱${hour}，刻柱${ke}`;
+      }
+      return `${key}：${value}`;
+    }).join('；');
+  };
+
+  const userPrompt = `
+用户问题：${question}
+
+时刻天机计算结果：
+计算方法：${calculationResult.method}
+计算时间：${calculationResult.timestamp.toLocaleString('zh-CN')}
+
+时柱：${formatPillar(calculationResult.hourPillar)}
+客柱：${formatPillar(calculationResult.kePillar)}
+
+十神：${calculationResult.shishen}
+
+天干神煞：
+${formatShensha(calculationResult.tianganShensha)}
+
+地支神煞：
+${formatShensha(calculationResult.dizhiShensha)}
+
+${calculationResult.fullBazi ? `完整八字：
+年柱：${formatPillar(calculationResult.fullBazi.yearPillar)}
+月柱：${formatPillar(calculationResult.fullBazi.monthPillar)}
+日柱：${formatPillar(calculationResult.fullBazi.dayPillar)}
+时柱：${formatPillar(calculationResult.fullBazi.hourPillar)}` : ''}
+
+请根据以上信息，为用户提供专业的时刻天机解读。解读应包括：
+1. 十神分析：分析十神对用户问题的影响
+2. 纳音分析：分析纳音五行对运势的影响
+3. 神煞分析：分析天干和地支神煞的作用
+4. 综合解读：结合所有信息给出综合判断
+5. 实用建议：给出具体的行动建议
+`;
+
+  try {
+    const response = await fetch(`${cleanBaseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cleanApiKey}`
+      },
+      body: JSON.stringify({
+        model: targetModel,
+        messages: [
+          { role: "system", content: `你是一位精通中国传统命理学的专家，擅长时刻天机（时柱占卜）解读。请根据用户的问题和计算结果，提供专业、准确、实用的解读。解读应该结合十神、纳音、神煞等传统命理知识，给出清晰易懂的分析和具体的行动建议。
+
+${SHIKETIANJI_TUTORIAL}` },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 4000
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`API 请求失败: ${response.status} - ${errText}`);
+    }
+
+    const jsonResult = await response.json();
+    const content = jsonResult.choices?.[0]?.message?.content;
+
+    if (!content) {
+      throw new Error("模型未返回任何内容。");
+    }
+
+    const keywords = extractKeywords(content);
+    const advice = extractAdvice(content);
+
+    return {
+      input: { question, method: calculationResult.method },
+      result: calculationResult,
+      interpretation: content,
+      shishenAnalysis: '',
+      nayinAnalysis: '',
+      shenshaAnalysis: '',
+      advice,
+      keywords
+    };
   } catch (error) {
     console.error("Gemini/OpenAI API Error:", error);
     throw error;

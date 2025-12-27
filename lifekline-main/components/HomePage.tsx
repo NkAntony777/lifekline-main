@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3 } from 'lucide-react';
+import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3, Clock } from 'lucide-react';
 import { testApiConnection } from '../services/geminiService';
 
 interface HomePageProps {
-  onNavigate: (page: 'kline' | 'analysis' | 'tarot' | 'astrologyDice') => void;
+  onNavigate: (page: 'kline' | 'analysis' | 'tarot' | 'astrologyDice' | 'shiketianji') => void;
   apiSettings: {
     modelName: string;
     apiBaseUrl: string;
@@ -159,7 +159,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl w-full">
           <div
             onClick={() => onNavigate('kline')}
             className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 hover:border-amber-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/20"
@@ -255,6 +255,31 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
               
               <div className="flex items-center gap-2 text-indigo-400 group-hover:gap-4 transition-all duration-300 text-sm">
                 <span className="font-medium">开始占卜</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('shiketianji')}
+            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 hover:border-teal-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-teal-500/20"
+          >
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"></div>
+            
+            <div className="relative">
+              <div className="w-14 h-14 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                <Clock className="w-7 h-7 text-white" />
+              </div>
+              
+              <h2 className="text-2xl font-serif-sc font-bold text-white mb-2 group-hover:text-teal-300 transition-colors">
+                时刻天机
+              </h2>
+              <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                根据当前时刻或随机数计算时柱与客柱，AI 解读十神、纳音、神煞，洞察时机与运势。
+              </p>
+              
+              <div className="flex items-center gap-2 text-teal-400 group-hover:gap-4 transition-all duration-300 text-sm">
+                <span className="font-medium">开始测算</span>
                 <ArrowRight className="w-4 h-4" />
               </div>
             </div>
