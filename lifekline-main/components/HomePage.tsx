@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3 } from 'lucide-react';
 import { testApiConnection } from '../services/geminiService';
 
 interface HomePageProps {
-  onNavigate: (page: 'kline' | 'analysis' | 'tarot') => void;
+  onNavigate: (page: 'kline' | 'analysis' | 'tarot' | 'astrologyDice') => void;
   apiSettings: {
     modelName: string;
     apiBaseUrl: string;
@@ -159,78 +159,103 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl w-full">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full">
           <div
             onClick={() => onNavigate('kline')}
-            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-amber-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/20"
+            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 hover:border-amber-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/20"
           >
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"></div>
             
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                <TrendingUp className="w-8 h-8 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                <TrendingUp className="w-7 h-7 text-white" />
               </div>
               
-              <h2 className="text-3xl font-serif-sc font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">
+              <h2 className="text-2xl font-serif-sc font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
                 人生 K 线
               </h2>
-              <p className="text-gray-400 mb-6 leading-relaxed">
+              <p className="text-gray-400 mb-4 text-sm leading-relaxed">
                 将人生运势以股票 K 线图形式可视化展现，直观呈现人生"牛市"与"熊市"，洞悉命运起伏。
               </p>
               
-              <div className="flex items-center gap-2 text-amber-400 group-hover:gap-4 transition-all duration-300">
+              <div className="flex items-center gap-2 text-amber-400 group-hover:gap-4 transition-all duration-300 text-sm">
                 <span className="font-medium">开始探索</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </div>
             </div>
           </div>
 
           <div
             onClick={() => onNavigate('analysis')}
-            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-purple-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
+            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 hover:border-purple-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
           >
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"></div>
             
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                <Brain className="w-8 h-8 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                <Brain className="w-7 h-7 text-white" />
               </div>
               
-              <h2 className="text-3xl font-serif-sc font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
+              <h2 className="text-2xl font-serif-sc font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">
                 八字 AI 分析
               </h2>
-              <p className="text-gray-400 mb-6 leading-relaxed">
+              <p className="text-gray-400 mb-4 text-sm leading-relaxed">
                 基于大模型深度批断，生成性格、事业、财富、婚姻、健康等多维度命理分析报告。
               </p>
               
-              <div className="flex items-center gap-2 text-purple-400 group-hover:gap-4 transition-all duration-300">
+              <div className="flex items-center gap-2 text-purple-400 group-hover:gap-4 transition-all duration-300 text-sm">
                 <span className="font-medium">开始分析</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </div>
             </div>
           </div>
 
           <div
             onClick={() => onNavigate('tarot')}
-            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-pink-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20"
+            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 hover:border-pink-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20"
           >
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"></div>
             
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                <Sparkles className="w-8 h-8 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                <Sparkles className="w-7 h-7 text-white" />
               </div>
               
-              <h2 className="text-3xl font-serif-sc font-bold text-white mb-3 group-hover:text-pink-300 transition-colors">
+              <h2 className="text-2xl font-serif-sc font-bold text-white mb-2 group-hover:text-pink-300 transition-colors">
                 塔罗 AI 解读
               </h2>
-              <p className="text-gray-400 mb-6 leading-relaxed">
+              <p className="text-gray-400 mb-4 text-sm leading-relaxed">
                 智能推荐牌阵，AI 深度解读每张牌的含义，揭示命运指引，解答人生困惑。
               </p>
               
-              <div className="flex items-center gap-2 text-pink-400 group-hover:gap-4 transition-all duration-300">
+              <div className="flex items-center gap-2 text-pink-400 group-hover:gap-4 transition-all duration-300 text-sm">
                 <span className="font-medium">开始解读</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('astrologyDice')}
+            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 hover:border-indigo-400/50 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/20"
+          >
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-indigo-400 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"></div>
+            
+            <div className="relative">
+              <div className="w-14 h-14 bg-gradient-to-br from-indigo-400 to-violet-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                <Dice3 className="w-7 h-7 text-white" />
+              </div>
+              
+              <h2 className="text-2xl font-serif-sc font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                占星骰子
+              </h2>
+              <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                投掷三颗骰子获得星星、星座、宫位，AI 深度解读组合含义，解答人生疑问。
+              </p>
+              
+              <div className="flex items-center gap-2 text-indigo-400 group-hover:gap-4 transition-all duration-300 text-sm">
+                <span className="font-medium">开始占卜</span>
+                <ArrowRight className="w-4 h-4" />
               </div>
             </div>
           </div>

@@ -1,6 +1,8 @@
 import { UserInput, Gender, ChatMessage } from "../types";
 import { DrawnCard, TarotReadingResult, TarotSpread } from "../types/tarot";
+import { DiceResult, AstrologyDiceReading } from "../types/astrologyDice";
 import { TAROT_SYSTEM_INSTRUCTION } from "../constants/tarot";
+import { ASTROLOGY_DICE_SYSTEM_PROMPT } from "../constants/astrologyDice";
 
 const GAN_LIST = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const ZHI_LIST = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
@@ -293,6 +295,122 @@ export const generateLifeAnalysis = async (input: UserInput): Promise<string> =>
     throw error;
   }
 };
+
+export const interpretAstrologyDice = async (
+  question: string,
+  diceResult: DiceResult,
+  modelName: string,
+  apiBaseUrl: string,
+  apiKey: string
+): Promise<AstrologyDiceReading> => {
+  const cleanApiKey = apiKey ? apiKey.trim() : "";
+  const cleanBaseUrl = apiBaseUrl ? apiBaseUrl.trim().replace(/\/+$/, "") : "";
+  const targetModel = modelName && modelName.trim() ? modelName.trim() : "gemini-3-pro-preview";
+
+  if (!cleanApiKey) {
+    throw new Error("请在表单中填写有效的 API Key");
+  }
+
+  if (!cleanBaseUrl) {
+    throw new Error("请在表单中填写有效的 API Base URL");
+  }
+
+  const userPrompt = `
+用户问题：${question}
+
+占星骰子结果：
+星星：${diceResult.planet.name}（${diceResult.planet.symbol}）
+  - 元素：${diceResult.planet.element}
+  - 关键词：${diceResult.planet.keywords.join('、')}
+  - 含义：${diceResult.planet.meaning}
+
+星座：${diceResult.zodiac.name}（${diceResult.zodiac.symbol}）
+  - 元素：${diceResult.zodiac.element}
+  - 性质：${diceResult.zodiac.quality}
+  - 关键词：${diceResult.zodiac.keywords.join('、')}
+  - 含义：${diceResult.zodiac.meaning}
+
+宫位：${diceResult.house.name}（${diceResult.house.symbol}）
+  - 关键词：${diceResult.house.keywords.join('、')}
+  - 含义：${diceResult.house.meaning}
+
+请根据以上信息，为用户提供专业的占星骰子解读。
+`;
+
+  try {
+    const response = await fetch(`${cleanBaseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cleanApiKey}`
+      },
+      body: JSON.stringify({
+        model: targetModel,
+        messages: [
+          { role: "system", content: ASTROLOGY_DICE_SYSTEM_PROMPT },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 4000
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`API 请求失败: ${response.status} - ${errText}`);
+    }
+
+    const jsonResult = await response.json();
+    const content = jsonResult.choices?.[0]?.message?.content;
+
+    if (!content) {
+      throw new Error("模型未返回任何内容。");
+    }
+
+    const keywords = extractKeywords(content);
+    const advice = extractAdvice(content);
+
+    return {
+      input: { question },
+      result: diceResult,
+      interpretation: content,
+      advice,
+      keywords
+    };
+  } catch (error) {
+    console.error("Gemini/OpenAI API Error:", error);
+    throw error;
+  }
+};
+
+function extractKeywords(content: string): string[] {
+  const keywordMatch = content.match(/关键词[：:]\s*([^\n]+)/);
+  if (keywordMatch) {
+    return keywordMatch[1].split(/[、,，]/).map(k => k.trim()).filter(k => k);
+  }
+  return [];
+}
+
+function extractAdvice(content: string): string[] {
+  const advice: string[] = [];
+  const lines = content.split('\n');
+  let inAdviceSection = false;
+
+  for (const line of lines) {
+    if (line.includes('实用建议') || line.includes('建议')) {
+      inAdviceSection = true;
+      continue;
+    }
+    if (inAdviceSection && (line.match(/^\d+\./) || line.match(/^•/) || line.match(/^-/))) {
+      advice.push(line.replace(/^\d+\.\s*/, '').replace(/^[•-]\s*/, '').trim());
+    }
+    if (inAdviceSection && line.trim() === '') {
+      inAdviceSection = false;
+    }
+  }
+
+  return advice;
+}
 
 export const generateChatResponse = async (
   userInput: UserInput,
