@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3, Clock } from 'lucide-react';
+import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3, Clock, Github } from 'lucide-react';
 import { testApiConnection } from '../services/geminiService';
 
 interface HomePageProps {
@@ -56,14 +56,25 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
                 <p className="text-xs text-ink-500 font-serif-sc">AI 驱动 · 传统命理</p>
               </div>
             </div>
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="px-4 py-2 bg-paper-50 hover:bg-paper-200 text-ink-700 border border-ink-200 rounded-lg transition-all text-sm font-medium flex items-center gap-2 shadow-sm"
-            >
-              <Settings className="w-4 h-4" />
-              <span>API 设置</span>
-              {showSettings ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/NkAntony777/lifekline-main"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-paper-50 hover:bg-paper-200 text-ink-700 border border-ink-200 rounded-lg transition-all shadow-sm group"
+                title="查看源码"
+              >
+                <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </a>
+              <button
+                onClick={() => setShowSettings(!showSettings)}
+                className="px-4 py-2 bg-paper-50 hover:bg-paper-200 text-ink-700 border border-ink-200 rounded-lg transition-all text-sm font-medium flex items-center gap-2 shadow-sm"
+              >
+                <Settings className="w-4 h-4" />
+                <span>API 设置</span>
+                {showSettings ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
 
           {showSettings && (
