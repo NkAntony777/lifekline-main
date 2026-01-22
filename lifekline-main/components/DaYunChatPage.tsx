@@ -281,37 +281,37 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+    <div className="min-h-screen bg-paper-100 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-wood-300 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-ink-200 rounded-full filter blur-3xl" style={{ animationDelay: '1s' }}></div>
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <header className="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 py-4 sticky top-0 z-50">
+        <header className="w-full bg-paper-50/90 backdrop-blur-md border-b border-ink-200/30 py-4 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button
                 onClick={onBack}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 hover:bg-paper-200 rounded-lg transition-colors"
               >
-                <ArrowLeft className="w-5 h-5 text-white" />
+                <ArrowLeft className="w-5 h-5 text-ink-700" />
               </button>
-              <div className="bg-gradient-to-r from-blue-400 to-purple-500 p-2 rounded-lg">
-                <MessageSquare className="w-5 h-5 text-white" />
+              <div className="bg-wood p-2 rounded-lg shadow-sm">
+                <MessageSquare className="w-5 h-5 text-paper-50" />
               </div>
               <div>
-                <h1 className="text-lg font-serif-sc font-bold text-white">大运流年对话分析</h1>
-                <p className="text-xs text-gray-400">AI 智能分析</p>
+                <h1 className="text-lg font-serif-sc font-bold text-ink-800">大运流年对话分析</h1>
+                <p className="text-xs text-ink-500">AI 智能分析</p>
               </div>
             </div>
           </div>
         </header>
 
         <main className="flex-1 flex flex-col max-w-7xl mx-auto px-4 py-6 w-full gap-6">
-          <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-blue-400" />
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-ink-200 p-6 shadow-lg">
+            <h2 className="text-lg font-bold text-ink-800 mb-4 flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-seal" />
               大运时间轴
             </h2>
             <div className="flex flex-wrap gap-3">
@@ -322,11 +322,10 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
                 >
                   <button
                     onClick={() => handleDaYunClick(block)}
-                    className={`px-4 py-3 rounded-xl border-2 transition-all duration-300 ${
-                      selectedDaYun?.name === block.name
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 border-blue-400 text-white shadow-lg shadow-blue-500/30'
-                        : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10 hover:border-white/20'
-                    }`}
+                    className={`px-4 py-3 rounded-xl border-2 transition-all duration-300 ${selectedDaYun?.name === block.name
+                      ? 'bg-seal text-white border-seal shadow-lg shadow-seal/30'
+                      : 'bg-paper-100 border-ink-200 text-ink-700 hover:bg-paper-200 hover:border-ink-300'
+                      }`}
                   >
                     <div className="text-sm font-bold font-serif-sc">{block.name}</div>
                     <div className="text-xs opacity-80">{block.startAge}-{block.endAge}岁</div>
@@ -334,7 +333,7 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
                   {selectedDaYun?.name === block.name && (
                     <button
                       onClick={() => handleAnalyzeClick(block.name, 'dayun')}
-                      className="absolute -top-2 -right-2 p-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-full shadow-lg transform transition-all hover:scale-110"
+                      className="absolute -top-2 -right-2 p-2 bg-seal hover:bg-seal-dark rounded-full shadow-lg transform transition-all hover:scale-110"
                     >
                       <Sparkles className="w-4 h-4 text-white" />
                     </button>
@@ -344,9 +343,9 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
             </div>
 
             {selectedDaYun && (
-              <div className="mt-6 border-t border-white/10 pt-6">
-                <h3 className="text-md font-bold text-white mb-4 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-purple-400" />
+              <div className="mt-6 border-t border-ink-200 pt-6">
+                <h3 className="text-md font-bold text-ink-800 mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-wood" />
                   {selectedDaYun.name}大运流年 ({selectedDaYun.startAge}-{selectedDaYun.endAge}岁)
                 </h3>
                 <div className="grid grid-cols-5 gap-3">
@@ -357,14 +356,14 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
                     >
                       <button
                         onClick={() => handleAnalyzeClick(liunian.name, 'liunian', liunian.age)}
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all"
+                        className="w-full px-3 py-2 rounded-lg bg-paper-100 border border-ink-200 hover:bg-paper-200 hover:border-ink-300 transition-all"
                       >
-                        <div className="text-xs font-bold font-serif-sc text-gray-300">{liunian.name}</div>
-                        <div className="text-xs text-gray-500">{liunian.age}岁</div>
+                        <div className="text-xs font-bold font-serif-sc text-ink-700">{liunian.name}</div>
+                        <div className="text-xs text-ink-500">{liunian.age}岁</div>
                       </button>
                       <button
                         onClick={() => handleAnalyzeClick(liunian.name, 'liunian', liunian.age)}
-                        className="absolute -top-1 -right-1 p-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-lg transform transition-all hover:scale-110 opacity-0 group-hover:opacity-100"
+                        className="absolute -top-1 -right-1 p-1 bg-seal hover:bg-seal-dark rounded-full shadow-lg transform transition-all hover:scale-110 opacity-0 group-hover:opacity-100"
                       >
                         <Sparkles className="w-3 h-3 text-white" />
                       </button>
@@ -375,10 +374,10 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
             )}
           </div>
 
-          <div className="flex-1 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 flex flex-col min-h-[400px]">
-            <div className="p-4 border-b border-white/10">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-blue-400" />
+          <div className="flex-1 bg-white/90 backdrop-blur-sm rounded-2xl border border-ink-200 flex flex-col min-h-[400px] shadow-lg">
+            <div className="p-4 border-b border-ink-200">
+              <h2 className="text-lg font-bold text-ink-800 flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-wood" />
                 对话记录
               </h2>
             </div>
@@ -389,13 +388,12 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
                   className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                      message.type === 'user'
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                        : message.type === 'assistant'
-                        ? 'bg-white/10 text-gray-200'
-                        : 'bg-amber-500/20 text-amber-200 border border-amber-500/30'
-                    }`}
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.type === 'user'
+                      ? 'bg-seal text-white'
+                      : message.type === 'assistant'
+                        ? 'bg-paper-200 text-ink-700'
+                        : 'bg-wood/20 text-wood-dark border border-wood/30'
+                      }`}
                   >
                     {message.type === 'assistant' ? (
                       <div className="prose prose-invert prose-sm max-w-none">
@@ -410,9 +408,9 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
                             ol: ({ node, ...props }) => <ol className="text-sm text-gray-200 list-decimal list-inside mb-2" {...props} />,
                             li: ({ node, ...props }) => <li className="mb-1" {...props} />,
                             strong: ({ node, ...props }) => <strong className="text-white font-bold" {...props} />,
-                            code: ({ node, className, ...props }: { node?: any; className?: string; inline?: boolean; [key: string]: any }) => {
+                            code: ({ node, className, ...props }: { node?: any; className?: string; inline?: boolean;[key: string]: any }) => {
                               const isInline = !className?.includes('language-') && !className?.includes('lang-');
-                              return isInline 
+                              return isInline
                                 ? <code className="bg-white/10 px-1 py-0.5 rounded text-xs text-amber-300" {...props} />
                                 : <code className="block bg-black/30 p-2 rounded text-xs text-green-300 overflow-x-auto" {...props} />;
                             },
@@ -443,7 +441,7 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
               )}
               <div ref={messagesEndRef} />
             </div>
-            <div className="p-4 border-t border-white/10">
+            <div className="p-4 border-t border-ink-200">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -451,12 +449,12 @@ const DaYunChatPage: React.FC<DaYunChatPageProps> = ({ userInput, onBack }) => {
                   onChange={(e) => setUserInputText(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="输入您的问题..."
-                  className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-white placeholder-gray-500"
+                  className="flex-1 px-4 py-3 bg-paper-100 border border-ink-200 rounded-xl focus:ring-2 focus:ring-seal outline-none text-ink placeholder-ink-400"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!userInputText.trim() || isLoading}
-                  className="px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-4 py-3 bg-seal hover:bg-seal-dark text-white rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   发送

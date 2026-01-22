@@ -177,29 +177,29 @@ ${readingResult.keywords.join('、')}
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+    <div className="min-h-screen bg-paper-100 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-seal-200 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-ink-200 rounded-full filter blur-3xl" style={{ animationDelay: '1s' }}></div>
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <header className="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 py-4 sticky top-0 z-50">
+        <header className="w-full bg-paper-50/90 backdrop-blur-md border-b border-ink-200/30 py-4 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-r from-purple-400 to-pink-500 p-2 rounded-lg">
-                <Sparkles className="w-6 h-6 text-white" />
+              <div className="bg-seal p-2 rounded-lg shadow-sm">
+                <Sparkles className="w-6 h-6 text-paper-50" />
               </div>
               <div>
-                <h1 className="text-xl font-serif-sc font-bold text-white">塔罗解读</h1>
-                <p className="text-xs text-gray-400">AI 智能解读</p>
+                <h1 className="text-xl font-serif-sc font-bold text-ink-800">塔罗解读</h1>
+                <p className="text-xs text-ink-500">AI 智能解读</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {readingResult && (
                 <button
                   onClick={handleNewReading}
-                  className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+                  className="px-4 py-2 bg-seal/20 hover:bg-seal/30 text-seal rounded-lg transition-all text-sm font-medium flex items-center gap-2"
                 >
                   <RefreshCw className="w-4 h-4" />
                   新解读
@@ -207,7 +207,7 @@ ${readingResult.keywords.join('、')}
               )}
               <button
                 onClick={onBack}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all text-sm font-medium flex items-center gap-2"
+                className="px-4 py-2 bg-paper-200 hover:bg-paper-300 text-ink-700 border border-ink-200 rounded-lg transition-all text-sm font-medium flex items-center gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />
                 返回首页
@@ -221,36 +221,36 @@ ${readingResult.keywords.join('、')}
             <div className="flex flex-col items-center justify-center min-h-[70vh] gap-8 animate-fade-in-up">
               <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-4 mb-4">
-                  <Moon className="w-12 h-12 text-purple-400" />
-                  <Star className="w-16 h-16 text-yellow-400" />
-                  <Sun className="w-12 h-12 text-orange-400" />
+                  <Moon className="w-12 h-12 text-seal" />
+                  <Star className="w-16 h-16 text-wood" />
+                  <Sun className="w-12 h-12 text-seal-light" />
                 </div>
-                <h2 className="text-4xl font-serif-sc font-bold text-white mb-3">塔罗解读</h2>
-                <p className="text-gray-400 text-lg">提出你的问题，让塔罗牌为你指引方向</p>
+                <h2 className="text-4xl font-serif-sc font-bold text-ink-800 mb-3">塔罗解读</h2>
+                <p className="text-ink-500 text-lg">提出你的问题，让塔罗牌为你指引方向</p>
               </div>
 
-              <div className="w-full max-w-2xl bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl">
+              <div className="w-full max-w-2xl bg-white/90 backdrop-blur-sm p-8 rounded-3xl border border-ink-200 shadow-xl">
                 <form onSubmit={handleQuestionSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">你的问题</label>
+                    <label className="block text-sm font-medium text-ink-600 mb-2">你的问题</label>
                     <textarea
                       value={question}
                       onChange={(e) => setQuestion(e.target.value)}
                       placeholder="请描述你想咨询的问题..."
-                      className="w-full h-32 bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
+                      className="w-full h-32 bg-paper-100 border border-ink-200 rounded-xl px-4 py-3 text-ink placeholder-ink-400 focus:outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all resize-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">选择牌阵（可选）</label>
+                    <label className="block text-sm font-medium text-ink-600 mb-2">选择牌阵（可选）</label>
                     <select
                       value={selectedSpreadId}
                       onChange={(e) => setSelectedSpreadId(e.target.value)}
-                      className="w-full bg-gradient-to-br from-purple-900/80 to-pink-900/80 backdrop-blur-xl border border-purple-400/30 rounded-xl px-4 py-3 text-white font-serif-sc focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 transition-all appearance-none cursor-pointer hover:border-purple-400/50 shadow-lg shadow-purple-500/20"
+                      className="w-full bg-paper-100 border border-ink-200 rounded-xl px-4 py-3 text-ink font-serif-sc focus:outline-none focus:border-seal focus:ring-2 focus:ring-seal/20 transition-all appearance-none cursor-pointer hover:border-seal/50 shadow-sm"
                     >
-                      <option value="" className="bg-slate-900 text-gray-200">自动推荐牌阵</option>
+                      <option value="">自动推荐牌阵</option>
                       {spreads.map((spread) => (
-                        <option key={spread.id} value={spread.id} className="bg-slate-900 text-gray-100">
+                        <option key={spread.id} value={spread.id}>
                           {spread.name} - {spread.description}
                         </option>
                       ))}
@@ -258,7 +258,7 @@ ${readingResult.keywords.join('、')}
                   </div>
 
                   {error && (
-                    <div className="flex items-center gap-2 text-red-400 text-sm bg-red-500/10 px-4 py-3 rounded-xl">
+                    <div className="flex items-center gap-2 text-seal text-sm bg-seal/10 px-4 py-3 rounded-xl border border-seal/20">
                       <Loader2 className="w-4 h-4" />
                       {error}
                     </div>
@@ -267,7 +267,7 @@ ${readingResult.keywords.join('、')}
                   <button
                     type="submit"
                     disabled={isLoading || !question.trim()}
-                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-4 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50"
+                    className="w-full bg-seal hover:bg-seal-dark text-white font-semibold py-4 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-seal/20 hover:shadow-seal/30"
                   >
                     {isLoading ? (
                       <>
@@ -290,12 +290,12 @@ ${readingResult.keywords.join('、')}
             <div className="flex flex-col items-center justify-center min-h-[70vh] gap-8">
               <div className="text-center">
                 <div className="relative w-32 h-48 mx-auto mb-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl animate-pulse"></div>
-                  <div className="absolute inset-2 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="absolute inset-4 bg-gradient-to-br from-purple-700 to-pink-700 rounded-xl animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="absolute inset-0 bg-seal rounded-xl animate-pulse"></div>
+                  <div className="absolute inset-2 bg-seal-dark rounded-xl animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="absolute inset-4 bg-wood rounded-xl animate-pulse" style={{ animationDelay: '0.4s' }}></div>
                 </div>
-                <h2 className="text-3xl font-serif-sc font-bold text-white mb-3">正在抽牌...</h2>
-                <p className="text-gray-400">请静心等待，塔罗牌正在为你指引方向</p>
+                <h2 className="text-3xl font-serif-sc font-bold text-ink-800 mb-3">正在抽牌...</h2>
+                <p className="text-ink-500">请静心等待，塔罗牌正在为你指引方向</p>
               </div>
             </div>
           )}
@@ -303,17 +303,17 @@ ${readingResult.keywords.join('、')}
           {step === 'reading' && readingResult && (
             <div className="space-y-8 animate-fade-in-up">
               <div className="text-center">
-                <h2 className="text-3xl font-serif-sc font-bold text-white mb-2">解读结果</h2>
-                <p className="text-gray-400">牌阵：{readingResult.spread.name}</p>
+                <h2 className="text-3xl font-serif-sc font-bold text-ink-800 mb-2">解读结果</h2>
+                <p className="text-ink-500">牌阵：{readingResult.spread.name}</p>
               </div>
 
               <div className="grid lg:grid-cols-2 gap-8">
-                <div className="bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10">
+                <div className="bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-ink-200 shadow-lg">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-serif-sc font-bold text-white">抽出的牌</h3>
+                    <h3 className="text-xl font-serif-sc font-bold text-ink-800">抽出的牌</h3>
                     <button
                       onClick={() => setShowAllCards(!showAllCards)}
-                      className="text-purple-400 hover:text-purple-300 transition-colors text-sm flex items-center gap-1"
+                      className="text-seal hover:text-seal-dark transition-colors text-sm flex items-center gap-1"
                     >
                       {showAllCards ? (
                         <>
@@ -333,22 +333,21 @@ ${readingResult.keywords.join('、')}
                     {readingResult.cards.slice(0, showAllCards ? undefined : 3).map((dc, index) => (
                       <div
                         key={index}
-                        className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-300 ${
-                          dc.isReversed ? 'bg-red-500/10 border border-red-500/30' : 'bg-purple-500/10 border border-purple-500/30'
-                        }`}
+                        className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-300 ${dc.isReversed ? 'bg-seal/10 border border-seal/30' : 'bg-wood/10 border border-wood/30'
+                          }`}
                       >
-                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold">
+                        <div className="flex-shrink-0 w-12 h-12 bg-seal rounded-lg flex items-center justify-center text-white font-bold">
                           {index + 1}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-white font-semibold">{dc.card.name}</span>
-                            <span className={`text-xs px-2 py-0.5 rounded-full ${dc.isReversed ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'}`}>
+                            <span className="text-ink-800 font-semibold">{dc.card.name}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${dc.isReversed ? 'bg-seal/20 text-seal' : 'bg-green-600/20 text-green-700'}`}>
                               {dc.isReversed ? '逆位' : '正位'}
                             </span>
                           </div>
-                          <p className="text-gray-400 text-sm mb-2">{dc.position.name} - {dc.position.description}</p>
-                          <p className="text-gray-300 text-sm">{dc.isReversed ? dc.card.meaningReversed : dc.card.meaningUpright}</p>
+                          <p className="text-ink-500 text-sm mb-2">{dc.position.name} - {dc.position.description}</p>
+                          <p className="text-ink-600 text-sm">{dc.isReversed ? dc.card.meaningReversed : dc.card.meaningUpright}</p>
                         </div>
                       </div>
                     ))}
@@ -356,17 +355,17 @@ ${readingResult.keywords.join('、')}
 
                   {readingResult.cards.length > 3 && !showAllCards && (
                     <div className="text-center pt-4">
-                      <p className="text-gray-400 text-sm">还有 {readingResult.cards.length - 3} 张牌...</p>
+                      <p className="text-ink-500 text-sm">还有 {readingResult.cards.length - 3} 张牌...</p>
                     </div>
                   )}
                 </div>
 
-                <div className="bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10">
+                <div className="bg-white/90 backdrop-blur-sm p-6 rounded-3xl border border-ink-200 shadow-lg">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-serif-sc font-bold text-white">AI 解读</h3>
+                    <h3 className="text-xl font-serif-sc font-bold text-ink-800">AI 解读</h3>
                     <button
                       onClick={handleCopy}
-                      className="text-purple-400 hover:text-purple-300 transition-colors text-sm flex items-center gap-1"
+                      className="text-seal hover:text-seal-dark transition-colors text-sm flex items-center gap-1"
                     >
                       {copied ? (
                         <>
@@ -419,11 +418,10 @@ ${readingResult.keywords.join('、')}
                       className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
-                        className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                          msg.role === 'user'
+                        className={`max-w-[80%] rounded-2xl px-4 py-3 ${msg.role === 'user'
                             ? 'bg-purple-500/20 text-white'
                             : 'bg-white/10 text-gray-200'
-                        }`}
+                          }`}
                       >
                         <div className="prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-gray-200 prose-strong:text-white prose-a:text-purple-300 prose-code:text-pink-300 prose-li:text-gray-200 prose-ul:text-gray-200 prose-ol:text-gray-200 prose-blockquote:text-gray-200 prose-hr:border-gray-600">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>

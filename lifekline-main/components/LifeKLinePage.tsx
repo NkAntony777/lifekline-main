@@ -234,27 +234,27 @@ const LifeKLinePage: React.FC<LifeKLinePageProps> = ({ onBack }) => {
   }, [result]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-amber-500 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+    <div className="min-h-screen bg-paper-100 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-wood-300 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-ink-200 rounded-full filter blur-3xl" style={{ animationDelay: '1s' }}></div>
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <header className="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 py-4 sticky top-0 z-50">
+        <header className="w-full bg-paper-50/90 backdrop-blur-md border-b border-ink-200/30 py-4 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-r from-amber-400 to-orange-500 p-2 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-white" />
+              <div className="bg-wood p-2 rounded-lg shadow-sm">
+                <TrendingUp className="w-6 h-6 text-paper-50" />
               </div>
               <div>
-                <h1 className="text-xl font-serif-sc font-bold text-white">人生 K 线</h1>
-                <p className="text-xs text-gray-400">Life Destiny K-Line</p>
+                <h1 className="text-xl font-serif-sc font-bold text-ink-800">人生 K 线</h1>
+                <p className="text-xs text-ink-500">Life Destiny K-Line</p>
               </div>
             </div>
             <button
               onClick={onBack}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all text-sm font-medium"
+              className="px-4 py-2 bg-paper-200 hover:bg-paper-300 text-ink-700 border border-ink-200 rounded-lg transition-all text-sm font-medium"
             >
               ← 返回首页
             </button>
@@ -265,27 +265,27 @@ const LifeKLinePage: React.FC<LifeKLinePageProps> = ({ onBack }) => {
           {!result ? (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
               <div className="text-center max-w-2xl flex flex-col items-center">
-                <h2 className="text-4xl md:text-5xl font-serif-sc font-bold text-white mb-6">
+                <h2 className="text-4xl md:text-5xl font-serif-sc font-bold text-ink-800 mb-6">
                   洞悉命运起伏 <br />
-                  <span className="text-amber-400">预见人生轨迹</span>
+                  <span className="text-seal">预见人生轨迹</span>
                 </h2>
-                <p className="text-gray-400 text-lg leading-relaxed mb-6">
-                  结合<strong>传统八字命理</strong>与<strong>金融可视化技术</strong>，
+                <p className="text-ink-600 text-lg leading-relaxed mb-6">
+                  结合<strong className="text-ink-800">传统八字命理</strong>与<strong className="text-ink-800">金融可视化技术</strong>，
                   将您的一生运势绘制成类似股票行情的K线图。
                 </p>
 
-                <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 p-4 rounded-xl border border-amber-500/20 mb-6 text-left w-full max-w-lg">
-                  <h3 className="font-bold text-amber-400 mb-2">📝 使用方法</h3>
-                  <ol className="text-sm text-gray-300 space-y-1 list-decimal list-inside">
+                <div className="bg-seal/10 p-4 rounded-xl border border-seal/20 mb-6 text-left w-full max-w-lg">
+                  <h3 className="font-bold text-seal mb-2">📝 使用方法</h3>
+                  <ol className="text-sm text-ink-600 space-y-1 list-decimal list-inside">
                     <li>填写八字信息，生成专属提示词</li>
                     <li>复制提示词到任意 AI（ChatGPT、Claude、Gemini 等）</li>
                     <li>将 AI 返回的 JSON 数据粘贴回来</li>
                   </ol>
                 </div>
 
-                <label className="flex items-center gap-3 px-6 py-3 bg-white/5 border-2 border-dashed border-emerald-500/30 rounded-xl cursor-pointer hover:border-emerald-500 hover:bg-emerald-500/10 transition-all group mb-4">
-                  <FileUp className="w-6 h-6 text-emerald-400 group-hover:text-emerald-300" />
-                  <span className="text-base font-medium text-gray-300 group-hover:text-emerald-300">已有 JSON 文件？点击直接导入</span>
+                <label className="flex items-center gap-3 px-6 py-3 bg-paper-200 border-2 border-dashed border-wood/30 rounded-xl cursor-pointer hover:border-wood hover:bg-wood/10 transition-all group mb-4">
+                  <FileUp className="w-6 h-6 text-wood group-hover:text-wood-dark" />
+                  <span className="text-base font-medium text-ink-600 group-hover:text-wood-dark">已有 JSON 文件？点击直接导入</span>
                   <input
                     type="file"
                     accept=".json"
@@ -307,35 +307,35 @@ const LifeKLinePage: React.FC<LifeKLinePageProps> = ({ onBack }) => {
           ) : (
             <div className="space-y-12 animate-fade-in">
               <div className="flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
-                <h2 className="text-2xl font-bold font-serif-sc text-white">
+                <h2 className="text-2xl font-bold font-serif-sc text-ink-800">
                   {userName ? `${userName}的` : ''}命盘分析报告
                 </h2>
 
                 <div className="flex flex-wrap gap-3">
                   <button
                     onClick={handleExportJson}
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600/80 hover:bg-emerald-600 text-white border border-emerald-500/30 rounded-lg transition-all font-medium text-sm backdrop-blur-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-wood hover:bg-wood-dark text-white border border-wood-dark/30 rounded-lg transition-all font-medium text-sm shadow-sm"
                   >
                     <FileDown className="w-4 h-4" />
                     导出JSON
                   </button>
                   <button
                     onClick={handlePrint}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600/80 hover:bg-indigo-600 text-white border border-indigo-500/30 rounded-lg transition-all font-medium text-sm backdrop-blur-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-seal hover:bg-seal-dark text-white border border-seal-dark/30 rounded-lg transition-all font-medium text-sm shadow-sm"
                   >
                     <Printer className="w-4 h-4" />
                     保存PDF
                   </button>
                   <button
                     onClick={handleSaveHtml}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600/80 hover:bg-indigo-600 text-white border border-indigo-500/30 rounded-lg transition-all font-medium text-sm backdrop-blur-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-seal hover:bg-seal-dark text-white border border-seal-dark/30 rounded-lg transition-all font-medium text-sm shadow-sm"
                   >
                     <Download className="w-4 h-4" />
                     保存网页
                   </button>
                   <button
                     onClick={() => setResult(null)}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white border border-white/10 rounded-lg transition-all font-medium text-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-paper-200 hover:bg-paper-300 text-ink-700 border border-ink-200 rounded-lg transition-all font-medium text-sm"
                   >
                     ← 重新排盘
                   </button>
@@ -344,21 +344,21 @@ const LifeKLinePage: React.FC<LifeKLinePageProps> = ({ onBack }) => {
 
               <section className="space-y-4">
                 <div className="flex flex-col gap-1">
-                  <h3 className="text-xl font-bold text-gray-200 flex items-center gap-2">
-                    <span className="w-1 h-6 bg-amber-500 rounded-full"></span>
+                  <h3 className="text-xl font-bold text-ink-800 flex items-center gap-2">
+                    <span className="w-1 h-6 bg-seal rounded-full"></span>
                     流年大运走势图 (100年)
                   </h3>
                   {peakYearItem && (
-                    <p className="text-sm font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded px-2 py-1 inline-flex items-center gap-2 self-start mt-1">
-                      <Trophy className="w-3 h-3 text-amber-300" />
-                      人生巅峰年份：{peakYearItem.year}年 ({peakYearItem.ganZhi}) - {peakYearItem.age}岁，评分 <span className="text-amber-300 text-lg">{peakYearItem.high}</span>
+                    <p className="text-sm font-bold text-seal bg-seal/10 border border-seal/20 rounded px-2 py-1 inline-flex items-center gap-2 self-start mt-1">
+                      <Trophy className="w-3 h-3 text-seal" />
+                      人生巅峰年份：{peakYearItem.year}年 ({peakYearItem.ganZhi}) - {peakYearItem.age}岁，评分 <span className="text-seal-dark text-lg">{peakYearItem.high}</span>
                     </p>
                   )}
                 </div>
 
-                <p className="text-sm text-gray-400 mb-2">
-                  <span className="text-green-400 font-bold">绿色K线</span> 代表运势上涨（吉），
-                  <span className="text-red-400 font-bold">红色K线</span> 代表运势下跌（凶）。
+                <p className="text-sm text-ink-500 mb-2">
+                  <span className="text-green-600 font-bold">绿色K线</span> 代表运势上涨（吉），
+                  <span className="text-red-600 font-bold">红色K线</span> 代表运势下跌（凶）。
                 </p>
                 <LifeKLineChart data={result.chartData} />
               </section>

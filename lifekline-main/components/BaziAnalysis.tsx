@@ -44,13 +44,13 @@ const BaziAnalysis: React.FC<BaziAnalysisProps> = ({ onBack, apiSettings, onStar
   };
 
   const isFormValid = () => {
-    return !!(formData.birthYear && 
-              formData.yearPillar && 
-              formData.monthPillar && 
-              formData.dayPillar && 
-              formData.hourPillar && 
-              formData.startAge && 
-              formData.firstDaYun);
+    return !!(formData.birthYear &&
+      formData.yearPillar &&
+      formData.monthPillar &&
+      formData.dayPillar &&
+      formData.hourPillar &&
+      formData.startAge &&
+      formData.firstDaYun);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,27 +98,27 @@ ${analysis}
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+    <div className="min-h-screen bg-paper-100 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-seal-200 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-ink-200 rounded-full filter blur-3xl" style={{ animationDelay: '1s' }}></div>
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <header className="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 py-4 sticky top-0 z-50">
+        <header className="w-full bg-paper-50/90 backdrop-blur-md border-b border-ink-200/30 py-4 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-r from-purple-400 to-pink-500 p-2 rounded-lg">
-                <Brain className="w-6 h-6 text-white" />
+              <div className="bg-seal p-2 rounded-lg shadow-sm">
+                <Brain className="w-6 h-6 text-paper-50" />
               </div>
               <div>
-                <h1 className="text-xl font-serif-sc font-bold text-white">八字 AI 分析</h1>
-                <p className="text-xs text-gray-400">AI 深度批断</p>
+                <h1 className="text-xl font-serif-sc font-bold text-ink-800">八字 AI 分析</h1>
+                <p className="text-xs text-ink-500">AI 深度批断</p>
               </div>
             </div>
             <button
               onClick={onBack}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all text-sm font-medium"
+              className="px-4 py-2 bg-paper-200 hover:bg-paper-300 text-ink-700 border border-ink-200 rounded-lg transition-all text-sm font-medium"
             >
               ← 返回首页
             </button>
@@ -129,125 +129,125 @@ ${analysis}
           {!analysisMode ? (
             <div className="flex flex-col items-center justify-center min-h-[70vh] gap-8 animate-fade-in-up">
               <div className="text-center mb-8">
-                <h2 className="text-4xl font-serif-sc font-bold text-white mb-3">选择分析模式</h2>
-                <p className="text-gray-400 text-lg">请选择您需要的八字分析功能</p>
+                <h2 className="text-4xl font-serif-sc font-bold text-ink-800 mb-3">选择分析模式</h2>
+                <p className="text-ink-500 text-lg">请选择您需要的八字分析功能</p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8 max-w-4xl w-full">
                 <div
                   onClick={() => setAnalysisMode('overall')}
-                  className="group relative bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-3xl p-8 border border-purple-400/30 hover:border-purple-400/70 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30"
+                  className="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-seal/30 hover:border-seal transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-seal/20"
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-400 to-pink-500 rounded-t-3xl"></div>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-seal rounded-t-3xl"></div>
                   <div className="relative z-10">
                     <div className="flex items-center justify-center mb-6">
-                      <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <Sparkles className="w-12 h-12 text-white" />
+                      <div className="bg-seal p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <Sparkles className="w-12 h-12 text-paper-50" />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-serif-sc font-bold text-white text-center mb-3">整体分析</h3>
-                    <p className="text-gray-300 text-center text-sm leading-relaxed mb-6">
+                    <h3 className="text-2xl font-serif-sc font-bold text-ink-800 text-center mb-3">整体分析</h3>
+                    <p className="text-ink-600 text-center text-sm leading-relaxed mb-6">
                       全方位八字命理分析，包含性格、事业、财富、婚姻、健康、六亲、风水等综合运势评估
                     </p>
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>性格分析</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>事业运势</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>财富运势</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>婚姻感情</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>健康运势</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>六亲关系</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>发展风水</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-seal rounded-full"></div>
                         <span>币圈交易</span>
                       </div>
                     </div>
                   </div>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ChevronDown className="w-6 h-6 text-purple-400" />
+                    <ChevronDown className="w-6 h-6 text-seal" />
                   </div>
                 </div>
 
                 <div
                   onClick={() => setAnalysisMode('dayun')}
-                  className="group relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-xl rounded-3xl p-8 border border-blue-400/30 hover:border-blue-400/70 transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30"
+                  className="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-wood/30 hover:border-wood transition-all duration-500 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-wood/20"
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-t-3xl"></div>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-wood rounded-t-3xl"></div>
                   <div className="relative z-10">
                     <div className="flex items-center justify-center mb-6">
-                      <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <TrendingUp className="w-12 h-12 text-white" />
+                      <div className="bg-wood p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <TrendingUp className="w-12 h-12 text-paper-50" />
                       </div>
                     </div>
-                    <h3 className="text-2xl font-serif-sc font-bold text-white text-center mb-3">大运流年分析</h3>
-                    <p className="text-gray-300 text-center text-sm leading-relaxed mb-6">
+                    <h3 className="text-2xl font-serif-sc font-bold text-ink-800 text-center mb-3">大运流年分析</h3>
+                    <p className="text-ink-600 text-center text-sm leading-relaxed mb-6">
                       深入分析大运流年运势，预测未来十年吉凶祸福，把握人生关键转折点
                     </p>
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-wood rounded-full"></div>
                         <span>大运分析</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-wood rounded-full"></div>
                         <span>流年运势</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-wood rounded-full"></div>
                         <span>吉凶预测</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-wood rounded-full"></div>
                         <span>转折点分析</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-wood rounded-full"></div>
                         <span>运势起伏</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                      <div className="flex items-center gap-2 text-ink-500 text-xs">
+                        <div className="w-1.5 h-1.5 bg-wood rounded-full"></div>
                         <span>时机把握</span>
                       </div>
                     </div>
                   </div>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ChevronDown className="w-6 h-6 text-blue-400" />
+                    <ChevronDown className="w-6 h-6 text-wood" />
                   </div>
                 </div>
               </div>
             </div>
           ) : !analysis ? (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
-              <div className="w-full max-w-md bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl">
+              <div className="w-full max-w-md bg-white/90 backdrop-blur-sm p-8 rounded-3xl border border-ink-200 shadow-xl">
                 <div className="text-center mb-6">
-                  <h2 className="text-3xl font-serif-sc font-bold text-white mb-2">
+                  <h2 className="text-3xl font-serif-sc font-bold text-ink-800 mb-2">
                     {analysisMode === 'overall' ? '整体分析' : '大运流年分析'}
                   </h2>
-                  <p className="text-gray-400 text-sm">请输入八字信息进行 AI 分析</p>
+                  <p className="text-ink-500 text-sm">请输入八字信息进行 AI 分析</p>
                   <button
                     onClick={() => setAnalysisMode(null)}
-                    className="mt-3 text-sm text-purple-400 hover:text-purple-300 flex items-center justify-center gap-1 mx-auto transition-colors"
+                    className="mt-3 text-sm text-seal hover:text-seal-dark flex items-center justify-center gap-1 mx-auto transition-colors"
                   >
                     <ChevronUp className="w-4 h-4" />
                     返回选择模式
@@ -274,8 +274,8 @@ ${analysis}
                           type="button"
                           onClick={() => setFormData({ ...formData, gender: Gender.MALE })}
                           className={`flex-1 py-1.5 rounded-md text-xs font-medium transition ${formData.gender === Gender.MALE
-                              ? 'bg-purple-500 text-white'
-                              : 'text-gray-400 hover:text-white'
+                            ? 'bg-purple-500 text-white'
+                            : 'text-gray-400 hover:text-white'
                             }`}
                         >
                           乾造 (男)
@@ -284,8 +284,8 @@ ${analysis}
                           type="button"
                           onClick={() => setFormData({ ...formData, gender: Gender.FEMALE })}
                           className={`flex-1 py-1.5 rounded-md text-xs font-medium transition ${formData.gender === Gender.FEMALE
-                              ? 'bg-pink-500 text-white'
-                              : 'text-gray-400 hover:text-white'
+                            ? 'bg-pink-500 text-white'
+                            : 'text-gray-400 hover:text-white'
                             }`}
                         >
                           坤造 (女)
