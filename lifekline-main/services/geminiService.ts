@@ -2,6 +2,7 @@ import { UserInput, Gender, ChatMessage } from "../types";
 import { DrawnCard, TarotReadingResult, TarotSpread } from "../types/tarot";
 import { DiceResult, AstrologyDiceReading } from "../types/astrologyDice";
 import { ShiKeTianJiResult, ShiKeTianJiReading } from "../types/shiketianji";
+import { DailyDivinationResult, DailyDivinationReading } from '../types/dailyDivination';
 import { TAROT_SYSTEM_INSTRUCTION } from "../constants/tarot";
 import { ASTROLOGY_DICE_SYSTEM_PROMPT } from "../constants/astrologyDice";
 import { SHIKETIANJI_TUTORIAL } from "../constants/shiketianjiTutorial";
@@ -1209,3 +1210,109 @@ export const generateLiunianAnalysis = async (
     throw error;
   }
 };
+
+
+export const interpretDailyDivination = async (
+  result: DailyDivinationResult,
+  modelName: string,
+  apiBaseUrl: string,
+  apiKey: string
+): Promise<DailyDivinationReading> => {
+  const cleanApiKey = apiKey ? apiKey.trim() : "";
+  const cleanBaseUrl = apiBaseUrl ? apiBaseUrl.trim().replace(/\/+$/, "") : "";
+  const targetModel = modelName && modelName.trim() ? modelName.trim() : "gemini-3-pro-preview";
+
+  if (!cleanApiKey) {
+    throw new Error("请在设置中填写有效的 API Key");
+  }
+
+  if (!cleanBaseUrl) {
+    throw new Error("请在设置中填写有效的 API Base URL");
+  }
+
+  const { ziwei, hexagram, question } = result;
+
+  const userPrompt = `
+请对以下每日占卜结果进行专业解读：
+
+【用户问题】
+${question}
+
+【紫微斗数星曜】
+主星：${ziwei.mainStar.name}（${ziwei.mainStar.description}）- ${ziwei.mainStar.meaning}
+副星：${ziwei.secondaryStar.name}（${ziwei.secondaryStar.description}）- ${ziwei.secondaryStar.meaning}
+杂曜：${ziwei.minorStar.name}（${ziwei.minorStar.description}）- ${ziwei.minorStar.meaning}
+
+【周易六十四卦】
+卦名：${hexagram.hexagram.name}
+卦象：${hexagram.hexagram.symbol}
+卦辞：${hexagram.hexagram.description}
+含义：${hexagram.hexagram.meaning}
+建议：${hexagram.hexagram.advice}
+
+请从以下几个方面进行解读：
+1. 整体运势分析
+2. 今日宜忌事项
+3. 工作事业建议
+4. 感情人际提示
+5. 健康财运提醒
+
+请用通俗易懂的语言，给出具体实用的建议。
+`;
+
+  try {
+    const response = await fetch(`${cleanBaseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cleanApiKey}`
+      },
+      body: JSON.stringify({
+        model: targetModel,
+        messages: [
+          { 
+            role: "system", 
+            content: "你是一位精通紫微斗数和周易的命理专家。请根据用户抽取的星曜和卦象，为其提供今日运势的专业解读。解读要客观中肯，既有传统文化的底蕴，又要实用易懂。"
+          },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 4000
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`API 请求失败: ${response.status} - ${errText}`);
+    }
+
+    const jsonResult = await response.json();
+    const content = jsonResult.choices?.[0]?.message?.content;
+
+    if (!content) {
+      throw new Error("模型未返回任何内容。");
+    }
+
+    // 提取关键词和建议
+    const keywords = extractKeywords(content);
+    const advice = extractAdvice(content);
+
+    return {
+      result,
+      interpretation: content,
+      fortune: extractFortune(content),
+      advice,
+      keywords,
+      timestamp: new Date()
+    };
+  } catch (error) {
+    console.error("Daily Divination API Error:", error);
+    throw error;
+  }
+};
+
+// 辅助函数：提取运势
+function extractFortune(content: string): string {
+  const fortuneMatch = content.match(/整体运势[：:]([^\n]+)/);
+  return fortuneMatch ? fortuneMatch[1].trim() : '运势平稳，保持平常心';
+}

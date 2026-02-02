@@ -57,12 +57,274 @@
   animation: fade-in-up 0.8s ease-out;
 }
 
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+/* 竖排文字 - 用于签条 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper-100 text-ink font-sans-sc antialiased;
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    /* Fallback or additional texture */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif-sc font-bold text-ink-900;
+  }
 }
+
+.font-serif-sc {
+  font-family: 'Noto Serif SC', serif;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out;
+}
+
+/* 竖排文字 - 用于签条 */
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.3em;
+}
+
+/* 竹筒摇晃动画 - 更剧烈 */
+@keyframes bamboo-shake {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+
+  10% {
+    transform: rotate(-8deg) translate(-2px, 1px);
+  }
+
+  20% {
+    transform: rotate(8deg) translate(2px, -1px);
+  }
+
+  30% {
+    transform: rotate(-8deg) translate(-2px, 2px);
+  }
+
+  40% {
+    transform: rotate(8deg) translate(2px, -2px);
+  }
+
+  50% {
+    transform: rotate(-6deg) translate(-1px, 1px);
+  }
+
+  60% {
+    transform: rotate(6deg) translate(1px, -1px);
+  }
+
+  70% {
+    transform: rotate(-4deg) translate(-1px, 2px);
+  }
+
+  80% {
+    transform: rotate(4deg) translate(1px, -2px);
+  }
+
+  90% {
+    transform: rotate(-2deg) translate(0, 1px);
+  }
+
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+}
+
+.animate-bamboo-shake {
+  animation: bamboo-shake 0.5s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+/* 签条滑出动画 */
+@keyframes stick-slide {
+  0% {
+    transform: translateY(-10%) scale(0.9);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(-60%) scale(1);
+    opacity: 1;
+  }
+
+  70% {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-55%) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-stick-slide {
+  animation: stick-slide 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* 圣杯3D抛掷动画 */
+@keyframes shengbei-toss-3d {
+  0% {
+    transform: translateY(0) rotateX(0) rotateZ(0) scale(1);
+  }
+
+  20% {
+    transform: translateY(-80px) rotateX(180deg) rotateZ(-10deg) scale(1.1);
+  }
+
+  40% {
+    transform: translateY(-120px) rotateX(360deg) rotateZ(10deg) scale(1.1);
+  }
+
+  60% {
+    transform: translateY(-60px) rotateX(540deg) rotateZ(-5deg) scale(1.05);
+  }
+
+  80% {
+    transform: translateY(-20px) rotateX(630deg) rotateZ(5deg) scale(1.02);
+  }
+
+  100% {
+    transform: translateY(0) rotateX(720deg) rotateZ(0) scale(1);
+  }
+}
+
+@keyframes shengbei-shadow-3d {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.2;
+  }
+
+  40% {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0.1;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.2;
+  }
+}
+
+.perspective-container {
+  perspective: 800px;
+}
+
+.animate-shengbei-toss {
+  animation: shengbei-toss-3d 1.5s ease-in-out forwards;
+  transform-style: preserve-3d;
+}
+
+.animate-shengbei-shadow {
+  animation: shengbei-shadow-3d 1.5s ease-in-out forwards;
+}
+
+/* 竹筒和签动画 */
+@keyframes bamboo-rattle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    transform: rotate(0deg);
+  }
+
+  75% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes bamboo-sticks {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-1px) rotate(1deg);
+  }
+
+  75% {
+    transform: translateY(-4px) rotate(-0.5deg);
+  }
+}
+
+.animate-bamboo-rattle {
+  animation: bamboo-rattle 0.1s linear infinite;
+  transform-origin: 50% 90%;
+}
+
+.animate-bamboo-sticks {
+  animation: bamboo-sticks 0.15s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-stick-slide,
+  .animate-shengbei-toss,
+  .animate-shengbei-shadow,
+  .animate-bamboo-rattle,
+  .animate-bamboo-sticks,
+  .animate-bamboo-shake {
+    animation: none !important;
+  }
+}
+
+
 
 /* Custom Scrollbar - Ink style */
 .custom-scrollbar::-webkit-scrollbar {

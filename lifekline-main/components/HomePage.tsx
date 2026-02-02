@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3, Clock, Github } from 'lucide-react';
+import { Sparkles, TrendingUp, Brain, ArrowRight, Settings, ChevronDown, ChevronUp, CheckCircle, XCircle, Loader2, Dice3, Clock, Github, BookOpen, Scroll } from 'lucide-react';
 import { testApiConnection } from '../services/geminiService';
 
 interface HomePageProps {
-  onNavigate: (page: 'kline' | 'analysis' | 'tarot' | 'astrologyDice' | 'shiketianji') => void;
+  onNavigate: (page: 'kline' | 'analysis' | 'tarot' | 'astrologyDice' | 'shiketianji' | 'dailyDivination' | 'luzuLingqian') => void;
   apiSettings: {
     modelName: string;
     apiBaseUrl: string;
@@ -174,7 +174,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl w-full">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl w-full">
             {/* Card 1: Life K-Line */}
             <div
               onClick={() => onNavigate('kline')}
@@ -292,6 +292,54 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, apiSettings, onApiSetti
 
                 <div className="flex items-center gap-2 text-teal-800/70 group-hover:text-teal-800 group-hover:gap-3 transition-all duration-300 text-sm font-medium">
                   <span>开始测算</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+
+            {/* Card 6: Daily Divination */}
+            <div
+              onClick={() => onNavigate('dailyDivination')}
+              className="group relative bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-ink-200 hover:border-amber-600 transition-all duration-500 cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-900/10"
+            >
+              <div className="relative">
+                <div className="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-700 group-hover:text-white transition-colors duration-300">
+                  <BookOpen className="w-6 h-6 text-amber-700 group-hover:text-white transition-colors" />
+                </div>
+
+                <h2 className="text-xl font-serif-sc font-bold text-ink-900 mb-2 group-hover:text-amber-700 transition-colors">
+                  每日一卦
+                </h2>
+                <p className="text-ink-500 mb-4 text-xs leading-relaxed h-16 line-clamp-3">
+                  紫微斗数108星随机抽取，结合周易六十四卦，AI智能解读今日运势。
+                </p>
+
+                <div className="flex items-center gap-2 text-amber-700/70 group-hover:text-amber-700 group-hover:gap-3 transition-all duration-300 text-sm font-medium">
+                  <span>开始占卜</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+
+            {/* Card 7: 吕祖灵签 */}
+            <div
+              onClick={() => onNavigate('luzuLingqian')}
+              className="group relative bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-ink-200 hover:border-red-700 transition-all duration-500 cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/10"
+            >
+              <div className="relative">
+                <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-800 group-hover:text-white transition-colors duration-300">
+                  <Scroll className="w-6 h-6 text-red-800 group-hover:text-white transition-colors" />
+                </div>
+
+                <h2 className="text-xl font-serif-sc font-bold text-ink-900 mb-2 group-hover:text-red-800 transition-colors">
+                  吕祖灵签
+                </h2>
+                <p className="text-ink-500 mb-4 text-xs leading-relaxed h-16 line-clamp-3">
+                  《吕祖灵签》是道教文化中托名吕祖的占卜签文系统，共有100签，每签包含诗偈、吉凶判断及典故解说，用以指点迷津。
+                </p>
+
+                <div className="flex items-center gap-2 text-red-800/70 group-hover:text-red-800 group-hover:gap-3 transition-all duration-300 text-sm font-medium">
+                  <span>开始求签</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>

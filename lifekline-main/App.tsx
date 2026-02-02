@@ -6,9 +6,11 @@ import DaYunChatPage from './components/DaYunChatPage';
 import TarotReading from './components/TarotReading';
 import AstrologyDice from './components/AstrologyDice';
 import ShiKeTianJi from './components/ShiKeTianJi';
+import DailyDivination from './components/DailyDivination';
+import LuZuLingqian from './components/LuZuLingqian';
 import { UserInput } from './types';
 
-type PageType = 'home' | 'kline' | 'analysis' | 'chat' | 'tarot' | 'astrologyDice' | 'shiketianji';
+type PageType = 'home' | 'kline' | 'analysis' | 'chat' | 'tarot' | 'astrologyDice' | 'shiketianji' | 'dailyDivination' | 'luzuLingqian';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
@@ -72,6 +74,15 @@ const App: React.FC = () => {
           onBack={() => handleNavigate('home')}
           apiSettings={apiSettings}
         />
+      )}
+      {currentPage === 'dailyDivination' && (
+        <DailyDivination 
+          onBack={() => handleNavigate('home')}
+          apiSettings={apiSettings}
+        />
+      )}
+      {currentPage === 'luzuLingqian' && (
+        <LuZuLingqian onBack={() => handleNavigate('home')} />
       )}
     </>
   );
