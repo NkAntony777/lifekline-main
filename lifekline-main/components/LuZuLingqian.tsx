@@ -58,7 +58,7 @@ function JiaobeiModel({
       vertex.fromBufferAttribute(posAttribute, i);
 
       // 变形逻辑
-      vertex.x *= 2.2;
+      vertex.x *= 1.5;
       vertex.y *= 0.6;
       vertex.z *= 0.8;
 
@@ -139,8 +139,8 @@ function ShengbeiScene({ isFlipping, result }: { isFlipping: boolean; result: Sh
   return (
     <group>
       <Float speed={isFlipping ? 20 : 0} rotationIntensity={isFlipping ? 2 : 0} floatIntensity={isFlipping ? 2 : 0}>
-        <JiaobeiModel position={[-2.5, 0, 0]} rotation={isFlipping ? [0, 0, 0] : leftRotation} isFlipping={isFlipping} />
-        <JiaobeiModel position={[2.5, 0, 0]} rotation={isFlipping ? [0, 0, 0] : rightRotation} isFlipping={isFlipping} />
+        <JiaobeiModel position={[-1.0, 0, 0]} rotation={isFlipping ? [0, 0, 0] : leftRotation} isFlipping={isFlipping} />
+        <JiaobeiModel position={[1.0, 0, 0]} rotation={isFlipping ? [0, 0, 0] : rightRotation} isFlipping={isFlipping} />
       </Float>
       <ContactShadows position={[0, -0.6, 0]} opacity={0.4} scale={15} blur={2} far={4} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
