@@ -16,6 +16,11 @@ import { KLinePoint } from '../types';
 
 interface LifeKLineChartProps {
   data: KLinePoint[];
+  selectedAge?: number;
+  onSelectAge?: (age: number) => void;
+  height?: number;
+  showHeader?: boolean;
+  className?: string;
 }
 
 const CustomTooltip = ({ active, payload }: any) => {
@@ -146,12 +151,20 @@ const PeakLabel = (props: any) => {
   );
 };
 
-const LifeKLineChart: React.FC<LifeKLineChartProps> = ({ data }) => {
+const LifeKLineChart: React.FC<LifeKLineChartProps> = ({
+  data,
+  selectedAge,
+  onSelectAge,
+  height = 600,
+  showHeader = true,
+  className = '',
+}) => {
   const transformedData = data.map(d => ({
     ...d,
     bodyRange: [Math.min(d.open, d.close), Math.max(d.open, d.close)],
     // Helper for labelling: we label the 'high' point
-    labelPoint: d.high
+    labelPoint: d.high,
+    isSelected: typeof selectedAge === 'number' && d.age === selectedAge,
   }));
 
   // Identify Da Yun change points to draw reference lines
@@ -168,16 +181,18 @@ const LifeKLineChart: React.FC<LifeKLineChartProps> = ({ data }) => {
   }
 
   return (
-    <div className="w-full h-[600px] bg-white p-2 md:p-6 rounded-xl border border-gray-200 shadow-sm relative">
-      <div className="mb-6 flex justify-between items-center px-2">
-        <h3 className="text-xl font-bold text-gray-800 font-serif-sc">人生流年大运K线图</h3>
-        <div className="flex gap-4 text-xs font-medium">
-           <span className="flex items-center text-green-700 bg-green-50 px-2 py-1 rounded"><div className="w-2 h-2 bg-green-500 mr-2 rounded-full"></div> 吉运 (涨)</span>
-           <span className="flex items-center text-red-700 bg-red-50 px-2 py-1 rounded"><div className="w-2 h-2 bg-red-500 mr-2 rounded-full"></div> 凶运 (跌)</span>
+    <div className={`w-full bg-white p-2 md:p-4 rounded-xl border border-gray-200 shadow-sm relative ${className}`} style={{ height }}>
+      {showHeader && (
+        <div className="mb-4 flex flex-wrap justify-between items-center gap-2 px-2">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 font-serif-sc">人生流年大运K线图</h3>
+          <div className="flex gap-2 md:gap-4 text-xs font-medium">
+            <span className="flex items-center text-green-700 bg-green-50 px-2 py-1 rounded"><div className="w-2 h-2 bg-green-500 mr-2 rounded-full"></div> 吉运 (涨)</span>
+            <span className="flex items-center text-red-700 bg-red-50 px-2 py-1 rounded"><div className="w-2 h-2 bg-red-500 mr-2 rounded-full"></div> 凶运 (跌)</span>
+          </div>
         </div>
-      </div>
-      
-      <ResponsiveContainer width="100%" height="90%">
+      )}
+
+      <ResponsiveContainer width="100%" height={showHeader ? "90%" : "96%"}>
         <ComposedChart data={transformedData} margin={{ top: 30, right: 10, left: 0, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
           
@@ -220,11 +235,23 @@ const LifeKLineChart: React.FC<LifeKLineChartProps> = ({ data }) => {
              </ReferenceLine>
           ))}
 
+          {typeof selectedAge === 'number' && (
+            <ReferenceLine x={selectedAge} stroke="#1d4ed8" strokeWidth={1.5} strokeDasharray="4 4">
+              <Label value={`当前 ${selectedAge}岁`} position="insideTopRight" fill="#1d4ed8" fontSize={10} fontWeight="bold" />
+            </ReferenceLine>
+          )}
+
           <Bar 
             dataKey="bodyRange" 
             shape={<CandleShape />} 
             isAnimationActive={true}
             animationDuration={1500}
+            onClick={(entry: any) => {
+              const age = entry?.age ?? entry?.payload?.age;
+              if (onSelectAge && typeof age === 'number') {
+                onSelectAge(age);
+              }
+            }}
           >
             {/* 
               Only show label for the global Peak 

@@ -1,0 +1,16 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='1280' height='720' viewBox='0 0 1280 720'>
+  <defs>
+    <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#0f172a'/>
+      <stop offset='58%' stop-color='#0369a1'/>
+      <stop offset='100%' stop-color='#22d3ee'/>
+    </linearGradient>
+  </defs>
+  <rect width='1280' height='720' fill='url(#g)'/>
+  <ellipse cx='1030' cy='80' rx='210' ry='88' fill='rgba(255,255,255,0.18)'/>
+  <rect y='500' width='1280' height='220' fill='rgba(8,15,28,0.32)'/>
+  
+  <rect x='42' y='337' width='53' height='163' fill='rgba(15,23,42,0.59)'/><rect x='152' y='320' width='66' height='180' fill='rgba(15,23,42,0.25)'/><rect x='262' y='303' width='79' height='197' fill='rgba(15,23,42,0.36)'/><rect x='372' y='286' width='56' height='214' fill='rgba(15,23,42,0.47)'/><rect x='482' y='269' width='69' height='231' fill='rgba(15,23,42,0.58)'/><rect x='592' y='252' width='46' height='248' fill='rgba(15,23,42,0.24)'/><rect x='702' y='235' width='59' height='265' fill='rgba(15,23,42,0.35)'/><rect x='812' y='218' width='72' height='282' fill='rgba(15,23,42,0.46)'/><rect x='922' y='201' width='49' height='299' fill='rgba(15,23,42,0.57)'/><rect x='1032' y='364' width='62' height='136' fill='rgba(15,23,42,0.23)'/><rect x='1142' y='347' width='75' height='153' fill='rgba(15,23,42,0.34)'/>
+  <path d="M560 460 C600 430 680 430 720 460" stroke="rgba(255,255,255,0.8)" stroke-width="6" fill="none"/>
+  <path d='M0 500 C120 470 240 520 360 500 C480 480 600 530 720 500 C840 470 960 520 1080 500 C1160 486 1220 494 1280 500 L1280 720 L0 720 Z' fill='rgba(255,255,255,0.22)'/>
+</svg>

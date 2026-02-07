@@ -43,7 +43,12 @@ const App: React.FC = () => {
           onApiSettingsChange={handleApiSettingsChange}
         />
       )}
-      {currentPage === 'kline' && <LifeKLinePage onBack={() => handleNavigate('home')} />}
+      {currentPage === 'kline' && (
+        <LifeKLinePage
+          onBack={() => handleNavigate('home')}
+          apiSettings={apiSettings}
+        />
+      )}
       {currentPage === 'analysis' && (
         <BaziAnalysis 
           onBack={() => handleNavigate('home')} 
